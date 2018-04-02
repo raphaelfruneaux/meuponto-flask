@@ -1,0 +1,31 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.3-alpine
+    restart: always
+    ports: 
+      - "45432:5432"
+    environment: 
+      - POSTGRES_PASSWORD=meuponto
+      - POSTGRES_USER=meuponto
+      - POSTGRES_DB=meuponto
+    volumes:
+      - meuponto-dbdata:/var/lib/postgresql
+  api:
+    build: .
+    restart: always
+    command: gunicorn run:app -w 3 -b 0.0.0.0:5000 --name meuponto-api --log-level=debug --log-file=-
+    ports:
+      - '5001:5000'
+    environment:
+      - DATABASE_URI=postgresql://meuponto:meuponto@db:5432/meuponto
+    volumes:
+      - './:/opt/data'
+    links:
+      - db
+    depends_on: 
+      - db
+
+volumes: 
+  meuponto-dbdata:
+    driver: local
