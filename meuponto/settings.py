@@ -1,6 +1,6 @@
 import os
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 TEST = False
 
 SECRET_KEY = "carambolasvoadorasmutantesninja"

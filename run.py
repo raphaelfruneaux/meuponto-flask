@@ -1,4 +1,4 @@
-from vistoriar.application import app
+from meuponto.application import app
 
 if __name__ == "__main__":
     app.run()
